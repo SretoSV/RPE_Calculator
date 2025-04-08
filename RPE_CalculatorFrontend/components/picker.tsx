@@ -8,7 +8,7 @@ import { COLORS } from '@/constants/theme';
 interface PickerProps{
     descText: string,
     values: string[],
-    onValueChange?: (value: string) => void,
+    onValueChange?: (value: boolean) => void,
     zIndex: number,
     isWeight: boolean,
 }
@@ -17,21 +17,29 @@ export default function Picker(props: PickerProps) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState<string>(props.values[0]);
     const [items, setItems] = useState<{ label: string; value: string }[]>([]);
+    const formattedItems = props.values.map((item, index) => ({
+        label: item,
+        value: item, 
+        key: (item + index).toString(),
+    }));
 
     useEffect(() => {
-        const formattedItems = props.values.map((item, index) => ({
-            label: item,
-            value: item.toLowerCase(), 
-            key: (item + index).toString(),
-        }));
         setItems(formattedItems);
-        setValue(formattedItems[0]?.value);
-    }, []);
+        if (!props.values.includes(value)) {
+            setValue(formattedItems[0]?.value);
+        }
+    }, [props.values]);
 
     useEffect(() => {
-        if (props.onValueChange) {
-            props.onValueChange(value); 
-        }
+        if(props.onValueChange){
+            if(value === "Muscle up"|| value === "Pull up"|| value === "Dip"){
+                props.onValueChange(false);
+            }
+            else if (value === "Squat"|| value === "Deadlift"){
+                props.onValueChange(true);
+            }
+       }
+
     }, [value]);
 
     return (

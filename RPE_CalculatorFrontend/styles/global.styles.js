@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { COLORS } from "../constants/theme";
 
 export const styles = StyleSheet.create({
+  //index styles
   mainContainer:{
     flex: 1,
     justifyContent: "flex-start",
@@ -50,6 +51,7 @@ export const styles = StyleSheet.create({
     marginVertical: 5,
   },
 
+  //Picker styles
   descriptionAndPicker:{
     flexDirection: "row",
     width: "100%",
@@ -107,13 +109,20 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
 
+  input:{
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    borderStyle: 'solid',
+    width: "100%",
+    color: COLORS.primary,
+  },
 
-
+  //Compute button styles
   computeButton:{
     width: "90%",
     backgroundColor: COLORS.secondary,
     alignItems: "center",
-    marginVertical: 5,
+    marginVertical: 10,
     height: 40,
     justifyContent: "center",
     borderRadius: 50,
@@ -124,11 +133,55 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
 
-  input:{
-    borderWidth: 2,
-    borderColor: COLORS.primary,
-    borderStyle: 'solid',
-    width: "100%",
-    color: COLORS.primary,
+  //One Rep Max Text styles
+  estimated1RM:{
+    color: COLORS.secondary,
+    fontSize: 24,
   },
+
+  kilograms1RM:{
+    marginTop: -10,
+    color: COLORS.secondary,
+    fontSize: 40,
+  },
+
+  //reps buttons styles
+
+  repsButtonsView:{
+    flexDirection: "row",
+    marginTop: 5,
+  },
+
+  repsButton:{
+    color: COLORS.primary,
+    fontSize: 18,
+    padding: 3,
+  },
+
+  //table view styles
+  tableHeaderViewInteger:{
+    flexDirection: "row",
+    justifyContent: "center",
+    width:"100%",
+  },
+
+  tableHeaderViewDouble:{
+    flexDirection: "row",
+    justifyContent: "center",
+    width:"100%",
+    backgroundColor: COLORS.double,
+  },
+
+  tableHeaderText:{
+    color: COLORS.primary,
+    fontSize: 18,
+    paddingHorizontal: 10,
+  },
+
+  viewForTable:{
+    justifyContent:"center",
+    alignItems:"center",
+    width:"33%",
+  },
+
 })
