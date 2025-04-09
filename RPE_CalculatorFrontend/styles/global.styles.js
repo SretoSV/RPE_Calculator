@@ -117,8 +117,8 @@ export const styles = StyleSheet.create({
     color: COLORS.primary,
   },
 
-  //Compute button styles
-  computeButton:{
+  //Calculate button styles
+  calculateButton:{
     width: "90%",
     backgroundColor: COLORS.secondary,
     alignItems: "center",
@@ -128,7 +128,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
   },
 
-  computeText:{
+  calculateText:{
     color: COLORS.primary,
     fontSize: 18,
   },
@@ -184,4 +184,63 @@ export const styles = StyleSheet.create({
     width:"33%",
   },
 
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+
+  modalContent: {
+    backgroundColor: COLORS.background,
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    marginTop: 40,
+    marginBottom: 30,
+  },
+
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    color: COLORS.primary,
+  },
+
+  modalCloseButton: {
+    backgroundColor: COLORS.secondary,
+    padding: 10,
+    borderRadius: 5,
+    position: "fixed",
+  },
+  modalCloseText: {
+    color: COLORS.primary,
+    fontSize: 16,
+  },
+
+  calculateColor:{
+    color: COLORS.secondary,
+  },
+
+  changeLanguageButton:{
+    backgroundColor: COLORS.primary,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 5,
+    position: "absolute",
+    top: 0,
+    right: 0,
+    marginTop: 2,
+    marginRight: 2,
+  },
+
+  changeLanguageText:{
+    color: COLORS.background,
+    fontSize: 16,
+  },
 })

@@ -9,6 +9,7 @@ interface PickerProps{
     descText: string,
     values: string[],
     onValueChange?: (value: boolean) => void,
+    onForValueChange: (value: string) => void,
     zIndex: number,
     isWeight: boolean,
 }
@@ -32,15 +33,23 @@ export default function Picker(props: PickerProps) {
 
     useEffect(() => {
         if(props.onValueChange){
-            if(value === "Muscle up"|| value === "Pull up"|| value === "Dip"){
+            if(value === "Muscle up" || value === "Pull up" || value === "Dip"){
                 props.onValueChange(false);
             }
-            else if (value === "Squat"|| value === "Deadlift"){
+            else if (value === "Bench" || value === "Squat" || value === "Deadlift"){
                 props.onValueChange(true);
             }
-       }
-
+        }
+        if(!props.isWeight){
+            props.onForValueChange(value);
+        }
     }, [value]);
+
+    useEffect(() => {
+        if(props.isWeight){
+            props.onForValueChange(text);
+        }
+    }, [text]);
 
     return (
         <View style={styles.descriptionAndPicker}>
