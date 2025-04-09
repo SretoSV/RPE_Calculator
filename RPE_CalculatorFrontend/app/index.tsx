@@ -163,7 +163,7 @@ export default function Index() {
       :
         <Picker
           descText="Min. increment"
-          values={["0.5kg (two of 0.25)", "1kg (two of 0.5)", "1.5kg (two of 0.75)", "2kg (two of 1.0)","2.5kg (two of 1.25)","5kg (two of 2.5)"]}
+          values={["0.5kg (2 x 0.25)", "1kg (2 x 0.5)", "1.5kg (2 x 0.75)", "2kg (2 x 1.0)","2.5kg (2 x 1.25)","5kg (2 x 2.5)"]}
           onForValueChange={handleSelectedIncrementChange}
           zIndex={1}
           isWeight={false}
@@ -335,13 +335,13 @@ export default function Index() {
                     Svrha ovog kalkulatora je da omogući dizaču da unese težinu, broj ponavljanja i stepen napora (RPE) za svoj poslednji set, a zatim da koristi pristup zasnovan na RPE-u ili procentima kako bi procenio odgovarajuću težinu za sledeći set.
                   </Text>
                   <Text style={styles.modalText}>
-                    U prvom delu, izaberite vežbu, unesite težinu za vaš set, i odaberite broj ponavljanja, RPE za taj set i najmanji teg kojim raspolažete.
+                    U prvom delu, izaberite vežbu, unesite težinu za vaš set, i odaberite broj ponavljanja (1-15), RPE za taj set (10-4) i najmanji teg kojim raspolažete (0.25kg - 2.5kg).
                   </Text>
                   <Text style={styles.modalText}>
-                    Pritisnite <Text style={styles.calculateColor}>Calculate</Text>, a na dnu će vam aplikacija prikazati procenjenu težinu za vaš sledeći set i vašu trenutnu procenjenu maksimalnu težinu za jedan ponovljeni set.
+                    Pritisnite <Text style={styles.calculateColor}>Calculate</Text>, a na dnu će vam aplikacija prikazati procenjenu težinu za vaše sledeće setove u zavisnosti od izabranog broja ponavljanja (dugmad 1-15) i vašu trenutnu maksimalnu kilazu za jedno ponavljanje (1RM).
                   </Text>
                   <Text style={styles.modalText}>
-                    Možete odabrati opseg ponavljanja između 1 i 15 pritiskom na jedan od 15 dugmadi, a zatim ćete videti težinu za određeni broj ponavljanja i odgovarajući RPE.
+                    Možete odabrati opseg ponavljanja između 1 i 15 pritiskom na jedan od 15 dugmadi, a zatim ćete videti težinu za taj broj ponavljanja i odgovarajući RPE.
                   </Text>
                 </>
                 :
@@ -350,13 +350,13 @@ export default function Index() {
                     The purpose of this calculator is to allow a lifter to input the weight, reps, and Rate of Percieved Exertion (RPE) for his or her last set, and then to use either an RPE-based or percentage-based approach to estimate the correct load for the following set.
                   </Text>
                   <Text style={styles.modalText}>
-                    In the first section, choose the exercise, input your weight for your set, and select the number of reps, the RPE of the set and the smallest weight plates you have available.
+                    In the first section, choose the exercise, input your weight for your set, and select the number of reps (1-15), the RPE of the set (10-4) and the smallest weight plates you have available (0.25kg - 2.5kg).
                   </Text>
                   <Text style={styles.modalText}>
-                    Hit <Text style={styles.calculateColor}>Calculate</Text>, and at the bottom, the app will give you the estimated load for your next set and your current estimated one-rep max.
+                    Hit <Text style={styles.calculateColor}>Calculate</Text>, and at the bottom, the app will give you the estimated load for your next sets based on the selected number of reps (buttons 1-15) and your current estimated one-rep max (1RM).
                   </Text>
                   <Text style={styles.modalText}>
-                    You can choose the rep range between 1 and 15 by pressing one of the 15 buttons, and then you can see the load for the specific number of reps and the corresponding RPE.
+                    You can choose the rep range between 1 and 15 by pressing one of the 15 buttons, and then you can see the load for that number of reps and the corresponding RPE.
                   </Text>
                 </>
               }
