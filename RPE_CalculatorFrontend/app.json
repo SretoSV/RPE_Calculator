@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "RPE_CalculatorFrontend",
-    "slug": "RPE_CalculatorFrontend",
+    "name": "RPE Calculator",
+    "slug": "RPE_Calculator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "rpecalculator",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -13,9 +13,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#1B1B23"
+      },
+      "package": "com.sretosv.RPE_Calculator"
     },
     "web": {
       "bundler": "metro",
@@ -27,15 +28,23 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#1B1B23"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "65ef95ae-f809-4320-90ab-3f587808fba7"
+      }
     }
   }
 }
