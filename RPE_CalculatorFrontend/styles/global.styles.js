@@ -181,7 +181,7 @@ export const styles = StyleSheet.create({
   viewForTable:{
     justifyContent:"center",
     alignItems:"center",
-    width:"33%",
+    width:"25%",
   },
 
   // Modal styles

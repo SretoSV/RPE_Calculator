@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Image, Text, TouchableOpacity, View, ScrollView, Dimensions, Modal } from "react-native";
+import { Image, Text, TouchableOpacity, View, ScrollView, Dimensions } from "react-native";
 import { styles } from "../styles/global.styles";
 import Picker from "@/components/picker";
 import { COLORS } from "@/constants/theme";
 import { calculateIndex, calculateValues } from "@/utils/utils";
-import Toast from 'react-native-toast-message';
+import InformationModal from "@/components/informationModal";
+import TableRow from "@/components/tableRow";
+import TableHeader from "@/components/tableHeader";
+import RepsButtons from "@/components/repsButtons";
 
 export default function Index() {
   const screenWidth = Dimensions.get("window").width;
@@ -74,7 +77,6 @@ export default function Index() {
     }
 
     setLanguageState(current => !current);
-
   };
 
   const handlePressCalculate = () => {
@@ -86,15 +88,14 @@ export default function Index() {
     console.log("Increment:", selectedIncrement);
     console.log("percentage:", values[indexOfRPE]);
 
-    const weightKG = parseFloat(selectedWeight);
-    if (isNaN(weightKG)) {
+    if (isNaN(parseFloat(selectedWeight))) {
       alert('You must enter a number!');
     } 
     else {
-      if(weightKG > 1000){
+      if(parseFloat(selectedWeight) > 1000){
         alert('Max weight is 1000kg');
       }
-      else if(weightKG < 0){
+      else if(parseFloat(selectedWeight) < 0){
         alert('Weight cannot be negative!');
       }
       else{
@@ -105,9 +106,6 @@ export default function Index() {
   };
   
   return (
-    <>
-    <Toast />
-    
     <View style={styles.mainContainer}>
       <View style={styles.header}>
         <Image source={require("../assets/images/logo.png")} style={styles.logoImage} />
@@ -146,7 +144,7 @@ export default function Index() {
 
       <Picker
         descText="@RPE"
-        values={["10", "9.5", "9", "8.5", "8", "7.5", "7", "6.5", "6", "5.5", "5", "4.5", "4"]}
+        values={["10", "9.5", "9", "8.5", "8", "7.5", "7", "6.5", "6", "5.5", "5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1", "0.5", "0"]}
         onForValueChange={handleSelectedRPEChange}
         zIndex={2}
         isWeight={false}
@@ -184,192 +182,36 @@ export default function Index() {
         {oneRepMax} kg
       </Text>
 
-      <View style={styles.repsButtonsView}>
-        {Array.from({ length: 15 }, (_, i) => {
-          if(i % 2 === 0){
-            if(selectedRepsButton == (i + 1)){
-              return (
-                <TouchableOpacity
-                  key={i}
-                  style={[{ width: buttonWidth,  alignItems:"center", backgroundColor: COLORS.secondary }]}
-                  onPress={() => handlePressMiniButtons(i + 1)}
-                >
-                  <Text style={styles.repsButton}>{i + 1}</Text>
-                </TouchableOpacity>
-              )
-            }
-            else{
-              return (
-                <TouchableOpacity
-                  key={i}
-                  style={[{ width: buttonWidth,  alignItems:"center" }]}
-                  onPress={() => handlePressMiniButtons(i + 1)}
-                >
-                  <Text style={styles.repsButton}>{i + 1}</Text>
-                </TouchableOpacity>
-              )
-            }
-          }
-          else{
-            if(selectedRepsButton == (i + 1)){
-              return (
-                <TouchableOpacity
-                  key={i}
-                  style={[{ width: buttonWidth, backgroundColor: COLORS.secondary, alignItems:"center" }]}
-                  onPress={() => handlePressMiniButtons(i + 1)}
-                >
-                  <Text style={styles.repsButton}>{i + 1}</Text>
-                </TouchableOpacity>
-              )
-            }
-            else{
-              return (
-                <TouchableOpacity
-                  key={i}
-                  style={[{ width: buttonWidth, backgroundColor: COLORS.double, alignItems:"center" }]}
-                  onPress={() => handlePressMiniButtons(i + 1)}
-                >
-                  <Text style={styles.repsButton}>{i + 1}</Text>
-                </TouchableOpacity>
-              )
-            }
-          }
-        })}
-      </View>
+      <RepsButtons 
+        buttonWidth={buttonWidth}
+        selectedRepsButton={selectedRepsButton}
+        onPressMiniButtons={handlePressMiniButtons}
+      />
 
-
-      <View style={styles.hr} />
-
-      <View style={styles.tableHeaderViewInteger}>
-        <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>RPE</Text></View>
-        <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>% of 1rm</Text></View>
-        <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>Load</Text></View>
-      </View>
-
-      <View style={styles.hr} />
+      <TableHeader />
 
       <ScrollView>
-        <View style={styles.tableHeaderViewInteger}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>10</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[0] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[0]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
-        <View style={styles.tableHeaderViewDouble}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>9.5</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[1] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[1]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
-        <View style={styles.tableHeaderViewInteger}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>9</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[2] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[2]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
-        <View style={styles.tableHeaderViewDouble}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>8.5</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[3] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[3]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>      
-        <View style={styles.tableHeaderViewInteger}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>8</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[4] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[4]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>      
-        <View style={styles.tableHeaderViewDouble}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>7.5</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[5] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[5]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>      
-        <View style={styles.tableHeaderViewInteger}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>7</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[6] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[6]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>      
-        <View style={styles.tableHeaderViewDouble}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>6.5</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[7] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[7]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>      
-        <View style={styles.tableHeaderViewInteger}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>6</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[8] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[8]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
-        <View style={styles.tableHeaderViewDouble}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>5.5</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[9] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[9]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
-        <View style={styles.tableHeaderViewInteger}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>5</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[10] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[10]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
-        <View style={styles.tableHeaderViewDouble}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>4.5</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[11] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[11]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
-        <View style={styles.tableHeaderViewInteger}>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>4</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{(calculateValues(selectedRepsButton)[12] * 100).toFixed(1)}%</Text></View>
-          <View style={styles.viewForTable}><Text style={styles.tableHeaderText}>{Math.round((oneRepMax * calculateValues(selectedRepsButton)[12]) / parseFloat(selectedIncrement.split("kg")[0])) * parseFloat(selectedIncrement.split("kg")[0])}</Text></View>
-        </View>
+        {Array.from({ length: 21 }, (_, i) => {
+          return <TableRow 
+            key={i + oneRepMax}
+            selectedRepsButton={selectedRepsButton}
+            oneRepMax={oneRepMax}
+            selectedIncrement={selectedIncrement}
+            indexOfPercentage={i}
+            rpe={(i + 20 - i * 2) / 2}
+            rir={i / 2}
+          />
+        })}
       </ScrollView>
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity onPress={changeLanguage} style={styles.changeLanguageButton}>
-              <Text style={styles.changeLanguageText}>{languageBtnText}</Text>
-            </TouchableOpacity>
-            <ScrollView>
-              {
-                languageState ? 
-                <>
-                  <Text style={styles.modalText}>
-                    Svrha ovog kalkulatora je da omogući dizaču da unese težinu, broj ponavljanja i stepen napora (RPE) za svoj poslednji set, a zatim da koristi pristup zasnovan na RPE-u ili procentima kako bi procenio odgovarajuću težinu za sledeći set.
-                  </Text>
-                  <Text style={styles.modalText}>
-                    U prvom delu, izaberite vežbu, unesite težinu za vaš set, i odaberite broj ponavljanja (1-15), RPE za taj set (10-4) i najmanji teg kojim raspolažete (0.25kg - 2.5kg).
-                  </Text>
-                  <Text style={styles.modalText}>
-                    Pritisnite <Text style={styles.calculateColor}>Calculate</Text>, a na dnu će vam aplikacija prikazati procenjenu težinu za vaše sledeće setove u zavisnosti od izabranog broja ponavljanja (dugmad 1-15) i vašu trenutnu maksimalnu kilazu za jedno ponavljanje (1RM).
-                  </Text>
-                  <Text style={styles.modalText}>
-                    Možete odabrati opseg ponavljanja između 1 i 15 pritiskom na jedan od 15 dugmadi, a zatim ćete videti težinu za taj broj ponavljanja i odgovarajući RPE.
-                  </Text>
-                </>
-                :
-                <>
-                  <Text style={styles.modalText}>
-                    The purpose of this calculator is to allow a lifter to input the weight, reps, and Rate of Percieved Exertion (RPE) for his or her last set, and then to use either an RPE-based or percentage-based approach to estimate the correct load for the following set.
-                  </Text>
-                  <Text style={styles.modalText}>
-                    In the first section, choose the exercise, input your weight for your set, and select the number of reps (1-15), the RPE of the set (10-4) and the smallest weight plates you have available (0.25kg - 2.5kg).
-                  </Text>
-                  <Text style={styles.modalText}>
-                    Hit <Text style={styles.calculateColor}>Calculate</Text>, and at the bottom, the app will give you the estimated load for your next sets based on the selected number of reps (buttons 1-15) and your current estimated one-rep max (1RM).
-                  </Text>
-                  <Text style={styles.modalText}>
-                    You can choose the rep range between 1 and 15 by pressing one of the 15 buttons, and then you can see the load for that number of reps and the corresponding RPE.
-                  </Text>
-                </>
-              }
-            </ScrollView>
-            <TouchableOpacity onPress={closeModal} style={styles.modalCloseButton}>
-              <Text style={styles.modalCloseText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-      </Modal>
+      <InformationModal 
+        modalVisible={modalVisible}
+        onClose={closeModal}
+        onChangeLanguage={changeLanguage}
+        languageBtnText={languageBtnText}
+        languageState={languageState}
+      />
 
     </View>
-    </>
   );
 }
